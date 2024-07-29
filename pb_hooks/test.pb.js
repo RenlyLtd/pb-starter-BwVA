@@ -1,9 +1,9 @@
 onAfterBootstrap((e) => {
-  console.log(e.app);
+  console.log(JSON.stringify(e.app));
 });
 
 onRecordAfterCreateRequest((e) => {
-  console.log(e.httpContext);
-  console.log(e.record);
-  console.log(e.uploadedFiles);
+  console.log(JSON.stringify(e.httpContext));
+  console.log(JSON.stringify(e.record));
+  console.log(JSON.stringify(e.uploadedFiles));
 });
