@@ -3,9 +3,12 @@ onAfterBootstrap((e) => {
 });
 
 onRecordAfterCreateRequest(function (e) {
-  var facetValues = e.record.expandAll("facet_values");
+  var facetValues = e.record.get("facet_values");
 
   if (facetValues != null) {
+    // Ensure facetValues is an array
+    var array = Array.isArray(facetValues) ? facetValues : [facetValues];
+
     // Iterate over each facet value and create a new record in the product_variants collection
     for (var i = 0; i < array.length; i++) {
       var id = array[i];
