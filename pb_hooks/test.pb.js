@@ -24,7 +24,7 @@ onRecordAfterCreateRequest(function (e) {
           product: e.record.id,
           stock_count: 1,
           facet_value: id,
-          price: e.record.price,
+          price: record.getInt("price"),
         });
 
         $app.dao().saveRecord(record);
