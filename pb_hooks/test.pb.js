@@ -42,3 +42,32 @@ onRecordAfterCreateRequest(function (e) {
     $app.dao().saveRecord(e.record);
   }
 }, "products");
+
+onRecordAfterUpdateRequest(function (e) {
+  var products = e.record.get("products");
+
+  if (products != null) {
+    // Ensure products is an array
+    var array = Array.isArray(products) ? products : [products];
+
+    // Iterate over each product ID and update the collections column in the products table
+    for (var i = 0; i < array.length; i++) {
+      var id = array[i];
+      try {
+        var productRecord = $app.dao().findRecordById("products", id);
+
+        // Assuming collections is an array and you want to add the category ID to it
+        var collections = productRecord.get("collections") || [];
+        collections.push(e.record.id);
+
+        productRecord.set("collections", collections);
+
+        $app.dao().saveRecord(productRecord);
+      } catch (error) {
+        console.error("Error updating product " + id + ":", error);
+      }
+    }
+
+    // No need to save e.record again if only products were updated
+  }
+}, "categories");
